@@ -1,17 +1,33 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="interface">
+      <button @click="isWebcamPlaying = !isWebcamPlaying">{{isWebcamPlaying ? 'Stop' : 'Start'}}</button>
+    </div>
+
+    <div class="main">
+      <World />
+      <Webcam />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import World from './components/World.vue';
+import Webcam from './components/Webcam.vue';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    World,
+    Webcam,
+  },
+  data() {
+    return {
+      isWebcamPlaying: false,
+    }
+  },
+  methods: {
+
   }
 }
 </script>
