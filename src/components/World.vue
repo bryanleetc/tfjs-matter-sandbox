@@ -35,7 +35,7 @@ export default {
 
 <style lang="scss">
 .world {
-  height: 100vh;
-  width: 100vw;
+  height: 800px;
+  width: (800 / 1.3)px;
 }
 </style>
