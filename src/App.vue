@@ -7,13 +7,13 @@
     <div class="main">
       <World v-show="false" />
       <Webcam :live="isWebcamPlaying" @streaming="onStreaming" />
+      <p>{{ pose }}</p>
     </div>
 
   </div>
 </template>
 
 <script>
-import * as posenet from '@tensorflow-models/posenet';
 import World from './components/World.vue';
 import Webcam from './components/Webcam.vue';
 
@@ -25,16 +25,13 @@ export default {
   },
   data() {
     return {
-      tfModel: null,
       isWebcamPlaying: false,
+      pose: null,
     }
   },
-  async mounted() {
-    this.tfModel = await posenet.load();
-  },
   methods: {
-    async onStreaming(streamPromise) {
-      console.log(streamPromise);
+    onStreaming(pose) {
+      this.pose = pose;
     },
   },
 }

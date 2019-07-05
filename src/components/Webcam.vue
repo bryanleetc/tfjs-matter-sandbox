@@ -1,8 +1,11 @@
 <template>
-  <video ref="webcam" autoplay playsinline muted class="webcam"></video>
+  <video ref="webcam" autoplay playsinline muted class="webcam" width="1200" :height="1200 / 1.3"></video>
 </template>
 
 <script>
+import * as tf from '@tensorflow/tfjs'
+import * as posenet from '@tensorflow-models/posenet';
+
 export default {
   props: {
     live: {
@@ -13,6 +16,7 @@ export default {
 
   data() {
     return {
+      tfModel: null,
       videoStream: null,
     };
   },
@@ -28,29 +32,37 @@ export default {
     },
   },
 
+  async mounted() {
+    this.tfModel = await posenet.load();
+  },
+
   methods: {
-    setupWebcam() {
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then((stream) => {
-          this.$refs.webcam.srcObject = stream;
-          // console.log(stream);
-          // this.$refs.webcam.srcObject = stream;
-          // // this.$refs.webcam.addEventListener('loadeddata', () => resolve(), false);
-          // this.$refs.webcam.onloadedmetadata = () => {
-          //   this.$refs.webcam.play();
-          //   this.videoStream = stream.getTracks()[0];
-          //   console.log('hello');
-          // }
-        // eslint-disable-next-line no-console
-        }).catch((e) => { console.error(e) });
+    async setupWebcam() {
+      let pose;
+      await this.streamWebcam();
+
+      while(true) {
+        pose = await this.tfModel.estimateSinglePose(this.$refs.webcam, {})
+        this.$emit('streaming', pose);
+        await tf.nextFrame();
+      }
+    },
+
+    async streamWebcam() {
+      const webcamEl = this.$refs.webcam;
+      const vm = this;
+
+      return new Promise((resolve, reject) => {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then((stream) => {
+            webcamEl.srcObject = stream;
+            vm.videoStream = stream.getTracks()[0];
+
+            webcamEl.addEventListener('loadeddata', () => resolve(), false);
+          })
+          .catch(() => reject());
+      });
     },
   },
 };
 </script>
-
-<style lang="scss">
-.webcam {
-  width: 1200px;
-  height: (1200 / 1.3)px;
-}
-</style>
