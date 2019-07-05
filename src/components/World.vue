@@ -14,12 +14,11 @@ export default {
       const Engine = Matter.Engine,
             Render = Matter.Render,
             World = Matter.World,
-            Bodies = Matter.Bodies,
-            Composites = Matter.Composites;
+            Bodies = Matter.Bodies;
+      // const Composites = Matter.Composites;
 
       const engine = Engine.create();
       const render = Render.create({
-        // element: document.body,
         canvas: this.$refs.world,
         engine,
       });
@@ -33,3 +32,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.world {
+  height: 100vh;
+  width: 100vw;
+}
+</style>
