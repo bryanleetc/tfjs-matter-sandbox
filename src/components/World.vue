@@ -1,9 +1,35 @@
 <template>
-  <div class="hello">
-  </div>
+  <canvas ref="world" class="world"></canvas>
 </template>
 
 <script>
+import Matter from 'matter-js';
+
 export default {
-}
+  mounted() {
+    this.setupStage();
+  },
+  methods: {
+    setupStage() {
+      const Engine = Matter.Engine,
+            Render = Matter.Render,
+            World = Matter.World,
+            Bodies = Matter.Bodies,
+            Composites = Matter.Composites;
+
+      const engine = Engine.create();
+      const render = Render.create({
+        // element: document.body,
+        canvas: this.$refs.world,
+        engine,
+      });
+
+      Engine.run(engine);
+      Render.run(render);
+
+      let ball = Bodies.circle(200, 10, 40, { isStatic: true });
+      World.add(engine.world, [ball]);
+    },
+  },
+};
 </script>
