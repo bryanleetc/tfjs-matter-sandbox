@@ -30,25 +30,19 @@ export default {
 
   methods: {
     setupWebcam() {
-      return new Promise((resolve, reject) => {
-        const navigatorAny = navigator
-        navigator.getUserMedia = navigator.getUserMedia ||
-                                  navigatorAny.webkitGetUserMedia || navigatorAny.mozGetUserMedia ||
-                                  navigatorAny.msGetUserMedia
-
-        if (!navigator.getUserMedia) {
-          reject()
-        }
-
-        navigator.getUserMedia({ video: true },
-          (stream) => {
-            this.$refs.webcam.srcObject = stream;
-            this.$refs.webcam.addEventListener('loadeddata', () => resolve(), false);
-            this.videoStream = stream.getTracks()[0];
-          },
-          () => reject(),
-        )
-      });
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => {
+          this.$refs.webcam.srcObject = stream;
+          // console.log(stream);
+          // this.$refs.webcam.srcObject = stream;
+          // // this.$refs.webcam.addEventListener('loadeddata', () => resolve(), false);
+          // this.$refs.webcam.onloadedmetadata = () => {
+          //   this.$refs.webcam.play();
+          //   this.videoStream = stream.getTracks()[0];
+          //   console.log('hello');
+          // }
+        // eslint-disable-next-line no-console
+        }).catch((e) => { console.error(e) });
     },
   },
 };

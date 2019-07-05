@@ -33,8 +33,8 @@ export default {
     this.tfModel = await posenet.load();
   },
   methods: {
-    onStreaming() {
-
+    async onStreaming(streamPromise) {
+      console.log(streamPromise);
     },
   },
 }
