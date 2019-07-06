@@ -5,7 +5,7 @@
     </div>
 
     <div class="main">
-      <World v-show="false" />
+      <World :pose="pose" />
       <Webcam :live="isWebcamPlaying" @streaming="onStreaming" />
       <p>{{ pose }}</p>
     </div>
@@ -27,11 +27,13 @@ export default {
     return {
       isWebcamPlaying: false,
       pose: null,
+      overallScore: null,
     }
   },
   methods: {
     onStreaming(pose) {
-      this.pose = pose;
+      this.overallScore = pose.score;
+      this.pose = pose.keypoints;
     },
   },
 }
@@ -50,6 +52,5 @@ export default {
 
 .interface {
   position: absolute;
-
 }
 </style>

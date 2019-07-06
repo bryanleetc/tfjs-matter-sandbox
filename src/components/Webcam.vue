@@ -1,5 +1,5 @@
 <template>
-  <video ref="webcam" autoplay playsinline muted class="webcam" width="1200" :height="1200 / 1.3"></video>
+  <video ref="webcam" autoplay playsinline muted class="webcam" width="800" :height="800 / 1.3"></video>
 </template>
 
 <script>
@@ -42,7 +42,7 @@ export default {
       await this.streamWebcam();
 
       while(true) {
-        pose = await this.tfModel.estimateSinglePose(this.$refs.webcam, {})
+        pose = await this.tfModel.estimateSinglePose(this.$refs.webcam, { flipHorizontal: true });
         this.$emit('streaming', pose);
         await tf.nextFrame();
       }
@@ -66,3 +66,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.webcam {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  z-index: 0;
+}
+</style>
