@@ -5,8 +5,8 @@
     </div>
 
     <div class="main">
-      <World :pose="pose" />
-      <Webcam :live="isWebcamPlaying" @streaming="onStreaming" />
+      <Kanvas :globalConfig="globalConfig"></Kanvas>
+      <Webcam :globalConfig="globalConfig" :live="isWebcamPlaying" @streaming="onStreaming" />
       <p>{{ pose }}</p>
     </div>
 
@@ -14,17 +14,26 @@
 </template>
 
 <script>
+// <World :pose="pose" />
+import Kanvas from './components/dev/Kanvas.vue';
 import World from './components/World.vue';
 import Webcam from './components/Webcam.vue';
 
 export default {
   name: 'app',
   components: {
+    Kanvas,
     World,
     Webcam,
   },
   data() {
     return {
+      globalConfig: {
+        canvas: {
+          width: 800,
+          height: 800 / 1.3,
+        },
+      },
       isWebcamPlaying: false,
       pose: null,
       overallScore: null,

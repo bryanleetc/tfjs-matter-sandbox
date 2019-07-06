@@ -1,5 +1,5 @@
 <template>
-  <video ref="webcam" autoplay playsinline muted class="webcam" width="800" :height="800 / 1.3"></video>
+  <video ref="webcam" autoplay playsinline muted class="webcam" :width="config.width" :height="config.height"></video>
 </template>
 
 <script>
@@ -12,6 +12,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    globalConfig: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  computed: {
+    config() { return this.globalConfig.canvas },
   },
 
   data() {
