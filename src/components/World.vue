@@ -51,6 +51,7 @@ export default {
       let ball = Bodies.circle(200, 10, 40, { isStatic: true });
       World.add(this.engine.world, [ball]);
     },
+
     createHead() {
       const {x, y} = this.pose.find((part) => part.part === 'nose').position;
 
