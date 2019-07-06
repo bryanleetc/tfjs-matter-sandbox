@@ -5,7 +5,7 @@
     </div>
 
     <div class="main">
-      <Kanvas :globalConfig="globalConfig"></Kanvas>
+      <Kanvas :globalConfig="globalConfig" :pose="pose"></Kanvas>
       <Webcam :globalConfig="globalConfig" :live="isWebcamPlaying" @streaming="onStreaming" />
       <p>{{ pose }}</p>
     </div>

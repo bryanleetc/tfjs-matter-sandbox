@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { debounce } from "debounce";
+
 export default {
   props: {
     pose: {
@@ -17,8 +19,9 @@ export default {
 
   watch: {
     pose() {
-      this.pose.forEach(({ position }) => {
-        this.ctx.clearRect(0, 0, this.config.width, this.config.height);
+      this.ctx.clearRect(0, 0, this.config.width, this.config.height);
+      this.pose.forEach(({ score, position }) => {
+        if (score < 0.5) return;
         this.drawPoint(position.x, position.y);
       });
     },
@@ -38,13 +41,13 @@ export default {
 
   mounted() {
     this.ctx = this.$refs.kanvas.getContext('2d');
+    this.ctx.save();
   },
 
   methods: {
     drawPoint(x, y) {
       if (!this.ctx) return;
-      this.ctx.arc(x, y, 5, 0, (Math.PI/180) * 360);
-      this.ctx.fill();
+      this.ctx.fillRect(x, y, 10, 10);
     },
   }
 };
