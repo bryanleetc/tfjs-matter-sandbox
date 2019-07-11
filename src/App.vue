@@ -6,7 +6,13 @@
 
     <div class="main">
       <World :globalConfig="globalConfig" :pose="pose"></World>
-      <Webcam :globalConfig="globalConfig" :live="isWebcamPlaying" @streaming="onStreaming" />
+
+      <div class="main__cam" :style="{ width: `${globalConfig.video.width}px`, height: `${globalConfig.video.height}px` }">
+        <div class="main__cam-container">
+          <Kanvas :globalConfig="globalConfig" :pose="pose"></Kanvas>
+          <Webcam :globalConfig="globalConfig" :live="isWebcamPlaying" @streaming="onStreaming" />
+        </div>
+      </div>
     </div>
 
   </div>
@@ -28,9 +34,13 @@ export default {
   data() {
     return {
       globalConfig: {
+        video: {
+          width: 250,
+          height: 250 / 1.3,
+        },
         canvas: {
-          width: 800,
-          height: 800 / 1.3,
+          width: 500,
+          height: 500 / 1.3,
         },
       },
       isWebcamPlaying: false,
@@ -52,6 +62,10 @@ export default {
 <style lang="scss">
 @import "./styles/reset";
 
+* {
+  box-sizing: border-box;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -62,5 +76,16 @@ export default {
 
 .interface {
   position: absolute;
+}
+
+.main {
+  &__cam {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  &__cam-container {
+    position: relative;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <canvas ref="world" class="world"></canvas>
+  <canvas ref="world" class="world" :style="{ width: config.width, height: config.height }"></canvas>
 </template>
 
 <script>
@@ -16,12 +16,21 @@ export default {
       type: Array,
       default: () => ([]),
     },
+    globalConfig: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
       head: null,
       engine: {},
     };
+  },
+  computed: {
+    config() {
+      return this.globalConfig.canvas;
+    },
   },
   watch: {
     pose() {
@@ -76,8 +85,6 @@ export default {
 
 <style lang="scss">
 .world {
-  height: 800px;
-  width: (800 / 1.3)px;
   position: absolute;
   left: 50%;
   top: 0;

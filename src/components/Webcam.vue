@@ -19,7 +19,7 @@ export default {
   },
 
   computed: {
-    config() { return this.globalConfig.canvas },
+    config() { return this.globalConfig.video },
   },
 
   data() {
@@ -50,7 +50,7 @@ export default {
       await this.streamWebcam();
 
       while(true) {
-        pose = await this.tfModel.estimateSinglePose(this.$refs.webcam, { flipHorizontal: true });
+        pose = await this.tfModel.estimateSinglePose(this.$refs.webcam, { flipHorizontal: false });
         this.$emit('streaming', pose);
         await tf.nextFrame();
       }
@@ -77,10 +77,9 @@ export default {
 
 <style lang="scss">
 .webcam {
+  background: #eee;
+  left: 0;
   position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
   z-index: 0;
 }
 </style>

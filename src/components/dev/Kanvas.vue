@@ -33,7 +33,7 @@ export default {
 
   computed: {
     config() {
-      return this.globalConfig.canvas;
+      return this.globalConfig.video;
     },
   },
 
@@ -45,7 +45,7 @@ export default {
   methods: {
     drawPoint(x, y) {
       if (!this.ctx) return;
-      this.ctx.fillRect(x, y, 10, 10);
+      this.ctx.fillRect(x, y, 3, 3);
     },
   }
 };
@@ -54,9 +54,7 @@ export default {
 <style lang="scss">
 .kanvas {
   position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
+  left: 0;
   z-index: 1;
 }
 </style>
