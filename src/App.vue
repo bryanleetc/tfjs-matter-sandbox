@@ -5,7 +5,7 @@
     </div>
 
     <div class="main">
-      <World :globalConfig="globalConfig" :pose="pose"></World>
+      <World :globalConfig="globalConfig" :nosePose="nosePose"></World>
 
       <div class="main__cam" :style="{ width: `${globalConfig.video.width}px`, height: `${globalConfig.video.height}px` }">
         <div class="main__cam-container">
@@ -39,12 +39,13 @@ export default {
           height: 250 / 1.3,
         },
         canvas: {
-          width: 500,
-          height: 500 / 1.3,
+          width: 600,
+          height: 600 / 1.3,
         },
       },
       isWebcamPlaying: false,
       pose: null,
+      nosePose: {},
       overallScore: null,
     }
   },
@@ -54,7 +55,21 @@ export default {
 
       this.overallScore = pose.score;
       this.pose = pose.keypoints;
+
+      this.processNosePose();
     },
+
+    processNosePose() {
+      const nose = this.pose.find((part) => part.part === 'nose');
+      if (nose.score < 0.6) return;
+
+      const {x, y} = nose.position;
+
+      this.nosePose = {
+        x: x / this.globalConfig.video.width,
+        y: y / this.globalConfig.video.height,
+      };
+    }
   },
 }
 </script>

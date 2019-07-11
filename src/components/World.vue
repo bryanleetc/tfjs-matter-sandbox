@@ -1,5 +1,5 @@
 <template>
-  <canvas ref="world" class="world" :style="{ width: config.width, height: config.height }"></canvas>
+  <canvas ref="world" class="world" :style="{ width: `${config.width}px`, height: `${config.height}px` }"></canvas>
 </template>
 
 <script>
@@ -12,9 +12,9 @@ let Bodies;
 
 export default {
   props: {
-    pose: {
-      type: Array,
-      default: () => ([]),
+    nosePose: {
+      type: Object,
+      default: () => ({}),
     },
     globalConfig: {
       type: Object,
@@ -33,7 +33,7 @@ export default {
     },
   },
   watch: {
-    pose() {
+    nosePose() {
       this.trackHead();
     },
   },
@@ -62,10 +62,8 @@ export default {
     },
 
     trackHead() {
-      const nose = this.pose.find((part) => part.part === 'nose');
-      const {x, y} = nose.position;
-
-      if (nose.score < 0.6) return;
+      const x = (1 - this.nosePose.x) * this.config.width;
+      const y = this.nosePose.y * this.config.height;
 
       if (!this.head) {
         this.createHead(x, y);
