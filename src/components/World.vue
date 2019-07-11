@@ -25,7 +25,7 @@ export default {
   },
   watch: {
     pose() {
-      this.createHead();
+      this.trackHead();
     },
   },
   mounted() {
@@ -52,16 +52,23 @@ export default {
       World.add(this.engine.world, [ball]);
     },
 
-    createHead() {
-      const {x, y} = this.pose.find((part) => part.part === 'nose').position;
+    trackHead() {
+      const nose = this.pose.find((part) => part.part === 'nose');
+      const {x, y} = nose.position;
+
+      if (nose.score < 0.6) return;
 
       if (!this.head) {
-        this.head = Bodies.circle(x, y, 100);
-        World.add(this.engine.world, [this.head], { isStatic: true });
+        this.createHead(x, y);
         return;
       }
 
       Matter.Body.setPosition(this.head, { x, y });
+    },
+
+    createHead(x, y) {
+      this.head = Bodies.circle(x, y, 100, { isStatic: true });
+      World.add(this.engine.world, [this.head]);
     },
   },
 };

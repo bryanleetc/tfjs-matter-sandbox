@@ -5,9 +5,8 @@
     </div>
 
     <div class="main">
-      <Kanvas :globalConfig="globalConfig" :pose="pose"></Kanvas>
+      <World :globalConfig="globalConfig" :pose="pose"></World>
       <Webcam :globalConfig="globalConfig" :live="isWebcamPlaying" @streaming="onStreaming" />
-      <p>{{ pose }}</p>
     </div>
 
   </div>
@@ -41,6 +40,8 @@ export default {
   },
   methods: {
     onStreaming(pose) {
+      if (pose.score < 0.2) return;
+
       this.overallScore = pose.score;
       this.pose = pose.keypoints;
     },

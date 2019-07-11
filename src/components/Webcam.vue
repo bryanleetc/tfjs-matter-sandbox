@@ -50,7 +50,7 @@ export default {
       await this.streamWebcam();
 
       while(true) {
-        pose = await this.tfModel.estimateSinglePose(this.$refs.webcam, { flipHorizontal: false });
+        pose = await this.tfModel.estimateSinglePose(this.$refs.webcam, { flipHorizontal: true });
         this.$emit('streaming', pose);
         await tf.nextFrame();
       }
