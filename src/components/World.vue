@@ -1,9 +1,15 @@
 <template>
-  <canvas ref="world" class="world" :style="{ width: `${config.width}px`, height: `${config.height}px` }"></canvas>
+  <div>
+    <canvas ref="world" class="world"></canvas>
+    <template v-if="engine.world">
+      <doll :world="engine.world" />
+    </template>
+  </div>
 </template>
 
 <script>
 import Matter from 'matter-js';
+import Doll from './world/Doll.vue';
 
 let Engine;
 let Render;
@@ -11,6 +17,9 @@ let World;
 let Bodies;
 
 export default {
+  components: {
+    Doll,
+  },
   props: {
     nosePose: {
       type: Object,
@@ -26,11 +35,6 @@ export default {
       head: null,
       engine: {},
     };
-  },
-  computed: {
-    config() {
-      return this.globalConfig.canvas;
-    },
   },
   watch: {
     nosePose() {
@@ -52,6 +56,11 @@ export default {
       const render = Render.create({
         canvas: this.$refs.world,
         engine: this.engine,
+        options: {
+          width: this.globalConfig.canvas.width,
+          height: this.globalConfig.canvas.height,
+          wireframes: false,
+        }
       });
 
       Engine.run(this.engine);

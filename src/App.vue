@@ -39,8 +39,8 @@ export default {
           height: 250 / 1.3,
         },
         canvas: {
-          width: 600,
-          height: 600 / 1.3,
+          width: 800,
+          height: 800 / 1.3,
         },
       },
       isWebcamPlaying: false,
